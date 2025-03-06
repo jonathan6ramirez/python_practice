@@ -1,9 +1,9 @@
 from model.explorer import Explorer
-import fake.explorer as data
+import data.explorer as data
 
 
-def get_all() -> list[Explorer]:
-    return data.get_all()
+def get_all(name: str | None) -> list[Explorer]:
+    return data.get_all(name)
 
 
 def get_one(name: str) -> Explorer | None:
@@ -14,13 +14,13 @@ def create(explorer: Explorer) -> Explorer:
     return data.create(explorer)
 
 
-def replace(id: int, explorer: Explorer) -> Explorer:
-    return data.replace(id, explorer)
+def replace(name: str, explorer: Explorer) -> Explorer:
+    return data.replace(name, explorer)
 
 
-def modify(id: int, explorer: Explorer) -> Explorer:
+def modify(name: str, explorer: Explorer) -> Explorer:
     return data.modify(id, explorer)
 
 
-def delete(id: int, explorer: Explorer) -> bool:
-    return data.delete(id)
+def delete(explorer: Explorer) -> bool:
+    return data.delete(explorer)
