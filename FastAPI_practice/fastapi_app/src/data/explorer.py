@@ -8,6 +8,9 @@ curs.execute("""create table if not exists explorer(
 
 
 def row_to_model(row: tuple) -> Explorer:
+    print("________________________________")
+    print("this is the row", row)
+    print("________________________________")
     return Explorer(name=row[0], country=row[1], description=row[2])
 
 
@@ -17,9 +20,11 @@ def model_to_dict(explorer: Explorer) -> dict | None:
 
 def get_one(name: str) -> Explorer:
     qry = "select * from explorer where name = ?"
-    params = tuple(name)
-    print("Fetching get_one inside the data layer", qry, params)
+    params = (name,)
     curs.execute(qry, params)
+    print("________________________________")
+    print("executing sql inside get_one", qry, params)
+    print("________________________________")
     return row_to_model(curs.fetchone())
 
 
@@ -35,10 +40,11 @@ def create(explorer: Explorer):
              VALUES(?, ?, ?)"""
     # print("this is the explorer object", explorer)
     params = tuple(model_to_dict(explorer).values())
-    print("Executing SQL: ", qry, params)
+    # print("Executing SQL inside create: ", qry, params)
     _ = curs.execute(qry, params)
     conn.commit()
     return get_one(explorer.name)
+    # return {"name": explorer.name, "success": True}
 
 
 def modify(name: str, explorer: Explorer) -> Explorer:
