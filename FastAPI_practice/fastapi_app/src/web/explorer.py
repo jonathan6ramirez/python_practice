@@ -1,44 +1,56 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from model.explorer import Explorer
-import service.explorer as service
+from service import explorer as service
+from error import Duplicate, Missing
 
 router = APIRouter(prefix="/explorer")
 
-print("the explorer file is being opened.")
+
+@router.get("", summary="Returns a list of all the explorers.", tags=["Explorers"])
+@router.get("/", summary="Returns a list of all the explorers.", tags=["Explorers"])
+def get_all() -> list[Explorer]:
+    return service.get_all()
 
 
-@router.get("")
-@router.get("/")
-def get_all(name: str | None = None) -> list[Explorer]:
-    print("/explorer/ route called")
-    return service.get_all(name)
+@router.get("/{name}", summary="Returns an explorer.", tags=["Explorers"])
+def get_one(name: str) -> Explorer | None:
+    try:
+        return service.get_one(name)
+    except Missing as exc:
+        raise HTTPException(status_code=404, detail=exc.msg)
 
 
-@router.get("/{name}")
-def get_one(name) -> Explorer | None:
-    return service.get_one(name)
-
-
-# all the remaining endpoints do nothing yet.
-@router.post("")
-@router.post("/")
+@router.post("", status_code=201, summary="Creates an explorer.", tags=["Explorers"])
+@router.post("/", status_code=201, summary="Creates an explorer.", tags=["Explorers"])
 def create(explorer: Explorer) -> Explorer:
-    return service.create(explorer)
+    try:
+        return service.create(explorer)
+    except Duplicate as exc:
+        raise HTTPException(status_code=404, detail=exc.msg)
 
 
-@router.patch("")
-@router.patch("/")
-def modify(name: str, explorer: Explorer) -> Explorer:
-    return service.modify(name, explorer)
+@router.patch("", summary="Udates an explorer.", tags=["Explorers"])
+@router.patch("/", summary="Udates an explorer.", tags=["Explorers"])
+def modify(name: str, explorer: Explorer) -> Explorer | None:
+    try:
+        return service.modify(name, explorer)
+    except Missing as exc:
+        raise HTTPException(status_code=404, detail=exc.msg)
 
 
-@router.put("")
-@router.put("/")
-def replace(name: str, explorer: Explorer) -> Explorer:
-    print("the put endpoint is getting called")
-    return service.replace(name, explorer)
+# INFO: Is this enpoint even being used????
+# @router.put("")
+# @router.put("/")
+# def replace(name: str, explorer: Explorer) -> Explorer:
+#     print("the put endpoint is getting called")
+#     return service.replace(name, explorer)
 
 
-@router.delete("/{name}")
-def delete(explorer: Explorer) -> bool:
-    return service.delete(explorer)
+@router.delete(
+    "/{name}", status_code=204, summary="Deletes an explorer.", tags=["Explorers"]
+)
+def delete(name: str):
+    try:
+        return service.delete(name)
+    except Missing as exc:
+        raise HTTPException(status_code=404, detail=exc.msg)
