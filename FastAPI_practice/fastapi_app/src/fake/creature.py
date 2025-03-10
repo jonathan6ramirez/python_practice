@@ -16,6 +16,13 @@ _creatures = [
         area="*",
         description="Sasquatch",
     ),
+    Creature(
+        name="Testing",
+        aka="Testing aka",
+        country="US",
+        area="*",
+        description="Testing",
+    ),
 ]
 
 

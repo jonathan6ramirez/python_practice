@@ -13,6 +13,7 @@ def get_all() -> list[Explorer]:
 
 
 @router.get("/{name}", summary="Returns an explorer.", tags=["Explorers"])
+@router.get("/{name}/", summary="Returns an explorer.", tags=["Explorers"])
 def get_one(name: str) -> Explorer | None:
     try:
         return service.get_one(name)
@@ -29,8 +30,8 @@ def create(explorer: Explorer) -> Explorer:
         raise HTTPException(status_code=404, detail=exc.msg)
 
 
-@router.patch("", summary="Udates an explorer.", tags=["Explorers"])
-@router.patch("/", summary="Udates an explorer.", tags=["Explorers"])
+@router.patch("/{name}/", summary="Udates an explorer.", tags=["Explorers"])
+@router.patch("/{name}", summary="Udates an explorer.", tags=["Explorers"])
 def modify(name: str, explorer: Explorer) -> Explorer | None:
     try:
         return service.modify(name, explorer)

@@ -30,8 +30,8 @@ def create(creature: Creature) -> Creature:
         raise HTTPException(status_code=404, detail=exc.msg)
 
 
-@router.patch("/", summary="Updates a creature.", tags=["Creatures"])
-@router.patch("", summary="Updates a creature.", tags=["Creatures"])
+@router.patch("/{name}", summary="Updates a creature.", tags=["Creatures"])
+@router.patch("/{name}/", summary="Updates a creature.", tags=["Creatures"])
 def modify(name: str, creature: Creature) -> Creature | None:
     try:
         return service.modify(name, creature)

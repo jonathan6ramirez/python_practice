@@ -1,8 +1,9 @@
 from model.creature import Creature
-import fake.creature as data
+import data.creature as data
 
 
 def get_all() -> list[Creature]:
+    print("This is the endpoint getting called")
     return data.get_all()
 
 
@@ -14,12 +15,12 @@ def create(creature: Creature) -> Creature:
     return data.create(creature)
 
 
-def replace(id: int, creature: Creature) -> Creature:
-    return data.replace(id, creature)
+def replace(name: str, creature: Creature) -> Creature:
+    return data.replace(name, creature)
 
 
-def modify(id: int, creature: Creature) -> Creature:
-    return data.modify(id, creature)
+def modify(name: str, creature: Creature) -> Creature | None:
+    return data.modify(name, creature)
 
 
 def delete(name: str):

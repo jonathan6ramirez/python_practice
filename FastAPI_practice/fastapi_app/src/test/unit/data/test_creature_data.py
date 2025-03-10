@@ -1,12 +1,12 @@
 import os
 import pytest
+import importlib
 from model.creature import Creature
 from error import Missing, Duplicate
 
-
 # set this before data imports below for data.init
-os.environ["CRYPTID_SQLITE_DB"] = ":memory"
-from src.data import creature
+os.environ["CRYPTID_SQLITE_DB"] = ":memory:"
+from data import creature
 
 
 @pytest.fixture

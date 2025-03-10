@@ -12,11 +12,12 @@ def row_to_model(row: tuple) -> Explorer:
     # print("________________________________")
     # print("this is the row", row)
     # print("________________________________")
-    return Explorer(name=row[0], country=row[1], description=row[2])
+    print(f"this is the row:\n{row}\n")
+    return Explorer(name=row[0], description=row[1], country=row[2])
 
 
 def model_to_dict(explorer: Explorer) -> dict | None:
-    return explorer.dict() if explorer else None
+    return explorer.model_dump() if explorer else None
 
 
 def get_one(name: str) -> Explorer:
@@ -42,7 +43,7 @@ def create(explorer: Explorer):
         return None
 
     qry = """INSERT INTO explorer(name, description, country)
-             VALUES(:name, :country, :description)"""
+             VALUES(:name, :description, :country)"""
     params = model_to_dict(explorer)
 
     try:
@@ -63,7 +64,7 @@ def modify(name: str, explorer: Explorer) -> Explorer | None:
     qry = """update explorer set
              name = :name,
              country = :country,
-             description = :description,
+             description = :description
              where name = :name_orig"""
     params = model_to_dict(explorer)
     params["name_orig"] = name
@@ -89,6 +90,5 @@ def delete(name: str):
 
     if curs.rowcount == 1:
         conn.commit()
-        return bool(res)
     else:
         raise Missing(msg=f"Explorer {name} not found.")

@@ -11,16 +11,17 @@ curs.execute("""create table if not exists creature(
 
 
 def row_to_model(row: tuple) -> Creature:
-    name, description, country, area, aka = row
-    return Creature(name, description, country, area, aka)
+    return Creature(
+        name=row[0], description=row[1], country=row[2], area=row[3], aka=row[4]
+    )
 
 
 def model_to_dict(creature: Creature) -> dict | None:
-    return creature.dict() if creature else None
+    return creature.model_dump() if creature else None
 
 
 def get_one(name: str) -> Creature:
-    qry = "select * from creature where name:=name"
+    qry = "select * from creature where name = :name"
     params = {"name": name}
     curs.execute(qry, params)
     row = curs.fetchone()
@@ -87,6 +88,5 @@ def delete(name: str):
 
     if curs.rowcount == 1:
         conn.commit()
-        return bool(res)
     else:
         raise Missing(msg=f"Creature {name} not found.")
