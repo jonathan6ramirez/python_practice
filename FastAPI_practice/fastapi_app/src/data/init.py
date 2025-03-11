@@ -17,18 +17,18 @@ def get_db(name: str | None = None, reset: bool = False):
         conn = None
     if not name:
         name = os.getenv("CRYPTID_SQLITE_DB")
-        print(
-            f"---------------This is the name before anything happens: {name}---------------"
-        )
+        # print(
+        #     f"---------------This is the name before anything happens: {name}---------------"
+        # )
         top_dir = Path(__file__).resolve().parents[1]  # repo top
         # print(f"This is the top {top_dir}")
         db_dir = top_dir / "db"
         db_name = "cryptid.sqlite3"
         db_path = str(db_dir / db_name)
         name = os.getenv("CRYPTID_SQLITE_DB", db_path)
-        print(
-            f"---------------This is the name after eveything happens: {name}---------------"
-        )
+        # print(
+        #     f"---------------This is the name after eveything happens: {name}---------------"
+        # )
     conn = connect(name, check_same_thread=False)
     curs = conn.cursor()
 

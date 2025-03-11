@@ -46,12 +46,15 @@ def create(user: User, table: str = "user"):
             values
             (:name, :hash)"""
     params = model_to_dict(user)
+    # print(f"\n\nThese are the params: {params}\nThis is the query: {qry}\n\n")
 
     try:
         curs.execute(qry, params)
         conn.commit()
     except IntegrityError:
         raise Duplicate(msg=f"{table}: user {user.name} already exists.")
+
+    return user
 
 
 def modify(name: str, user: User) -> User:

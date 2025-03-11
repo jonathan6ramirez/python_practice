@@ -38,6 +38,7 @@ def get_one(name: str) -> User | None:
 
 def create(user: User) -> User:
     check_duplicate(user.name)
+    print(f"this is the user: {user}")
     return user
 
 
