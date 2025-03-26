@@ -1,6 +1,11 @@
+import os
 from fastapi import APIRouter, HTTPException
 from model.creature import Creature
-from service import creature as service
+
+if os.getenv("CRYPTID_UNIT_TEST"):
+    from fake import creature as service
+else:
+    from service import creature as service
 from error import Duplicate, Missing
 
 router = APIRouter(prefix="/creature")

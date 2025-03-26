@@ -49,12 +49,12 @@ def create(creature: Creature) -> Creature:
     return creature
 
 
-def modify(creature: Creature) -> Creature:
+def modify(name: str, creature: Creature) -> Creature:
     """Partially modify an creature."""
     return creature
 
 
-def replace(creature: Creature) -> Creature:
+def replace(name: str, creature: Creature) -> Creature:
     """Completely replace a creature."""
     return creature
 

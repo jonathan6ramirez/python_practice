@@ -75,6 +75,7 @@ def modify(name: str, creature: Creature) -> Creature | None:
 
 
 def replace(name: str, creature: Creature):
+    print(f"this is the name {name}")
     return creature
 
 
@@ -84,7 +85,7 @@ def delete(name: str):
 
     qry = "delete from creature where name = :name"
     params = {"name": name}
-    res = curs.execute(qry, params)
+    curs.execute(qry, params)
 
     if curs.rowcount == 1:
         conn.commit()

@@ -1,6 +1,5 @@
 import os
 import pytest
-import importlib
 from model.creature import Creature
 from error import Missing, Duplicate
 
@@ -41,14 +40,18 @@ def test_get_one_missing():
 
 
 def test_modify(sample):
-    sample.area = "Sesame Street"
+    creature.country = "JP"
     resp = creature.modify(sample.name, sample)
     assert resp == sample
 
 
 def test_modify_missing():
     thing: Creature = Creature(
-        name="snurfle", country="RU", area="", description="some thing", aka=""
+        name="snurfle",
+        country="somewhere",
+        area="*",
+        description="some thing",
+        aka="thing",
     )
     with pytest.raises(Missing):
         _ = creature.modify(thing.name, thing)
