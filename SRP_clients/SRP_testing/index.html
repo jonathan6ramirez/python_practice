@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRP Alert System</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        #alerts { margin-top: 20px; font-size: 1.5rem; color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Live Alerts</h1>
+    <p id="status">Connecting...</p>
+    <div id="alerts">No alerts yet.</div>
+
+    <script>
+        const ws = new WebSocket("ws://localhost:8000/ws");
+
+        ws.onopen = function() {
+            document.getElementById("status").innerText = "Connected!";
+        };
+
+        ws.onmessage = function(event) {
+            document.getElementById("alerts").innerText = event.data;
+        };
+
+        ws.onclose = function() {
+            document.getElementById("status").innerText = "Disconnected!";
+        };
+    </script>
+</body>
+</html>
